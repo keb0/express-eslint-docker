@@ -2,46 +2,60 @@ const express = require("express");
 const { Client } = require("@elastic/elasticsearch");
 
 const INDEX_NAME = "test_index";
+const MAX_SIZE = 3000;
 
 const client = new Client({
   nodes: [
     "http://localhsot:9200",
     "http://localhost:9201",
-    "http://localshot:9292"
+    "http://localhost:9292"
   ]
 });
 
 const router = express.Router();
 
 router.get("/", async (req, res, next) => {
+  const Queue = [];
   const responseQueue = [];
 
-  const result = await client.search({
+  const params = {
     index: INDEX_NAME,
     body: {
-      size: 2,
+      size: MAX_SIZE,
       query: {
         match_all: {}
       },
       sort: [
         {
-          tie_breaker_id: "desc"
+          tie_breaker_id: "asc"
         }
       ]
     }
-  });
+  };
 
-  responseQueue.push(result);
+  const result = await client.search(params);
+  Queue.push(result);
 
-  while (responseQueue.length) {
-    const { body } = responseQueue.shift();
+  while (Queue.length) {
+    const { body } = Queue.shift();
+    const total = body.hits.total.value;
+
     body.hits.hits.forEach(row => {
-      console.log(JSON.stringify(row));
+      responseQueue.push(row);
     });
-  }
 
-  res.send({
-    status: 200
+    if (total === responseQueue.length) {
+      break;
+    } else {
+      params.body.search_after = ["tie_breaker_id"];
+    }
+
+    Queue.push(await client.search(params));
+  }
+  console.log(Queue);
+
+  res.json({
+    aaa: "bbb"
   });
 });
 
