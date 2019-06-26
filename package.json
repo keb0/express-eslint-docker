@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "lint": "eslint",
-    "start": "nodemon -L ./bin/www",
+    "start": "nodemon -L ./server.js",
     "test": "jest"
   },
   "dependencies": {
@@ -12,6 +12,7 @@
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.16.0",
+    "http-errors": "^1.7.3",
     "morgan": "~1.9.0"
   },
   "devDependencies": {
