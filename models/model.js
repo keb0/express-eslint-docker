@@ -1,12 +1,5 @@
 const { Client } = require("@elastic/elasticsearch");
-
-const client = new Client({
-  nodes: [
-    "http://localhost:9200",
-    "http://localhost:9201",
-    "http://localhost:9202"
-  ]
-});
+const client = require("../lib/connect");
 
 exports.show = async (req, res) => {
   const params = {
@@ -24,8 +17,8 @@ exports.show = async (req, res) => {
       return row._source;
     });
     res.status(200).json({
-      test: response,
-      data: body.hits.total.value
+      data: response,
+      count: body.hits.total.value
     });
   } catch (e) {
     res.status(500).json({
