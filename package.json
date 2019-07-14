@@ -4,14 +4,15 @@
   "private": true,
   "scripts": {
     "lint": "eslint",
-    "start": "nodemon -L ./bin/www",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon -L ./server.js",
+    "test": "jest"
   },
   "dependencies": {
     "@elastic/elasticsearch": "7",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.16.0",
+    "http-errors": "^1.7.3",
     "morgan": "~1.9.0"
   },
   "devDependencies": {
@@ -20,9 +21,11 @@
     "eslint-config-import": "^0.13.0",
     "eslint-config-prettier": "^4.3.0",
     "eslint-plugin-import": "^2.17.3",
+    "eslint-plugin-jest": "^22.6.4",
     "eslint-plugin-prettier": "^3.1.0",
     "jest": "^24.8.0",
     "nodemon": "^1.19.1",
-    "prettier": "^1.17.1"
+    "prettier": "^1.17.1",
+    "supertest": "^4.0.2"
   }
 }

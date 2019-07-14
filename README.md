@@ -46,4 +46,10 @@ http://localhost:9200/test_index/
 
 npm run start
 localhost:3000
+localhost:3000/api
+```
+
+## test
+```
+npm run test
 ```
