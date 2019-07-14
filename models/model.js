@@ -1,28 +1,29 @@
-const { Client } = require("@elastic/elasticsearch");
-const client = require("../lib/connect");
+const Client = require("../lib/connect");
 
-exports.show = async (req, res) => {
+exports.show = async () => {
+  const client = new Client();
   const params = {
     index: "test_index",
     body: {
       query: {
-        match_all: {}
+        bool: {
+          filter: [{
+            term: { abc: "abc" }
+          }]
+        }
       }
     }
   };
 
-  try {
-    const { body } = await client.search(params);
-    const response = body.hits.hits.map(row => {
-      return row._source;
-    });
-    res.status(200).json({
-      data: response,
-      count: body.hits.total.value
-    });
-  } catch (e) {
-    res.status(500).json({
-      message: e.message
-    });
-  }
+//  const { body } = await client.search(params);
+//  const response = body.hits.hits.map(row => {
+//    return row._source;
+//  });
+  const response = await client.search(params);
+  console.log(response);
+  return {
+    data: response,
+    count: 1
+//    count: body.hits.total.value
+  };
 };
