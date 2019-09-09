@@ -1,6 +1,7 @@
+const logger = require("../lib/log4js");
 const model = require("../models/model");
 
-exports.show = async (req, res) => {
+exports.show = async (req, res, next) => {
   try {
     const response = await model.search();
 
@@ -17,6 +18,9 @@ exports.show = async (req, res) => {
       });
     }
   } catch (e) {
+    logger.info(e);
+    console.log("controller");
+    console.log(e);
     res.status(500).json({
       message: e.message
     });
