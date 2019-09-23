@@ -1,2 +1,5 @@
 # Json File
-*json
+*.json
+
+# PDF File
+*.pdf
